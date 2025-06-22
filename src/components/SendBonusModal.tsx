@@ -181,7 +181,7 @@ export function SendBonusModal() {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Recipient's Email</FormLabel>
+                  <FormLabel>Recipient&apos;s Email</FormLabel>
                   <FormControl>
                     <Input
                       type="email"

@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState, useEffect } from "react";
+import { createContext, useContext, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { useSupportStore, useTransactionStore, useUserStore } from "@/store";
 
@@ -32,7 +32,7 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const { signout, setUserData, user, users, setUsersData } = useUserStore();
+  const { signout, setUserData, user, setUsersData } = useUserStore();
   const { setTransactions, setAllTransactions, signoutTransaction } =
     useTransactionStore();
   const { setSupports, setAllSupports, signoutSupport } = useSupportStore();
