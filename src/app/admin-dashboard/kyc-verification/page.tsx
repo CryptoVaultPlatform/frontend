@@ -1,14 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataTable } from "@/components/DataTableAdminKYC";
 import { useUserStore } from "@/store/userStore";
+import { User } from "@/store/userStore";
 
 const KYCverification = () => {
   const { users } = useUserStore();
 
   const [tableData, setTableData] = useState<any[]>(
-    users?.map((user: any) => ({
+    users?.map((user: User) => ({
       id: user.id,
       user: {
         id: user.id,
@@ -17,7 +18,7 @@ const KYCverification = () => {
         avatar: user.avatar || "/assets/avatars/avatar-default.png",
         role: user.role,
       },
-      submitted: user.updated_at.split(".")[0].replace("T", " "),
+      submitted: user.updated_at?.split(".")[0].replace("T", " "),
       status:
         user.status === "ACTIVE"
           ? "Active"
@@ -35,6 +36,37 @@ const KYCverification = () => {
       documents: [user.government_id, user.id_card],
     })) || []
   );
+
+  useEffect(() => {
+    setTableData(
+      users?.map((user: User) => ({
+        id: user.id,
+        user: {
+          id: user.id,
+          name: user.full_name,
+          email: user.email,
+          avatar: user.avatar || "/assets/avatars/avatar-default.png",
+          role: user.role,
+        },
+        submitted: user.updated_at?.split(".")[0].replace("T", " "),
+        status:
+          user.status === "ACTIVE"
+            ? "Active"
+            : user.status === "INACTIVE"
+            ? "Inactive"
+            : user.status === "FREEZE"
+            ? "Freeze"
+            : "Suspended",
+        verify:
+          user.verify === "VERIFIED"
+            ? "Verified"
+            : user.verify === "REJECTED"
+            ? "Rejected"
+            : "Unverified",
+        documents: [user.government_id, user.id_card],
+      })) || []
+    );
+  }, [users]);
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6">

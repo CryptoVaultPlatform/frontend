@@ -2,8 +2,8 @@
 
 import { DataTable } from "@/components/DataTableUserTransactions";
 
-import { useState } from "react";
-import { useTransactionStore } from "@/store/transactionStore";
+import { useEffect, useState } from "react";
+import { Transaction, useTransactionStore } from "@/store/transactionStore";
 import { useUserStore } from "@/store/userStore";
 
 const TransactionsPage = () => {
@@ -11,7 +11,7 @@ const TransactionsPage = () => {
   const { user } = useUserStore();
 
   const [tableData, setTableData] = useState<any[]>(
-    transactions.map((transaction: any) => ({
+    transactions.map((transaction: Transaction) => ({
       id: transaction.id,
       header: "No",
       type:
@@ -23,7 +23,7 @@ const TransactionsPage = () => {
             transaction.sender_id === user?.id
           ? "BonusSent"
           : "BonusReceived",
-      amount: transaction.amount.toString(),
+      amount: transaction.amount?.toString() || "0",
       status:
         transaction.status === "COMPLETED"
           ? "Success"
@@ -63,9 +63,36 @@ const TransactionsPage = () => {
             ? transaction.sender?.avatar || "/assets/avatars/avatar-default.png"
             : "/assets/logo.png",
       },
-      created_at: transaction.created_at.split(".")[0].replace("T", " "),
+      created_at: transaction.created_at?.split(".")[0].replace("T", " "),
     }))
   );
+
+  useEffect(() => {
+    setTableData(
+      transactions.map((transaction: Transaction) => ({
+        id: transaction.id,
+        header: "No",
+        type:
+          transaction.type === "DEPOSIT"
+            ? "Deposit"
+            : transaction.type === "WITHDRAWAL"
+            ? "Withdraw"
+            : transaction.type === "TRANSFER" &&
+              transaction.sender_id === user?.id
+            ? "BonusSent"
+            : "BonusReceived",
+        amount: transaction.amount?.toString() || "0",
+        status:
+          transaction.status === "COMPLETED"
+            ? "Success"
+            : transaction.status === "FAILED"
+            ? "Failed"
+            : transaction.status === "CANCELLED"
+            ? "Cancelled"
+            : "Pending",
+      }))
+    );
+  }, [transactions, user]);
 
   return (
     <div className="flex flex-col gap-4 p-4 md:p-6">

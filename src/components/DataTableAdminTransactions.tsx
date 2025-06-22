@@ -20,7 +20,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -46,7 +45,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowUpIcon, ArrowDownIcon } from "./ui/icon";
+import { ArrowUpIcon, ArrowDownIcon } from "@/components/ui/icon";
 import StatusBadge from "./StatusBadge";
 import { NavUser } from "./NavUser";
 

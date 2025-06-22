@@ -27,7 +27,6 @@ import { Button } from "@/components/ui/button";
 
 import { useUserStore } from "@/store";
 import { useNotification } from "@/providers/notificationProvider";
-import instance from "@/lib/axios";
 import { updateKYC, updatePassword, updateProfile } from "@/api";
 
 const FormSchema1 = z.object({
@@ -165,7 +164,7 @@ const SettingsPage = () => {
       first_name: user?.full_name?.split(" ")[0] || "",
       last_name: user?.full_name?.split(" ")[1] || "",
     });
-  }, [user]);
+  }, [user, form1, form3]);
 
   async function onSubmit1(data: z.infer<typeof FormSchema1>) {
     await updateProfile(

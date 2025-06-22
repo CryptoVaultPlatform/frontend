@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DataTable } from "@/components/DataTableAdminWithdraw";
 
 import { useTransactionStore } from "@/store/transactionStore";
@@ -13,7 +13,7 @@ const WithdrawalRequestsPage = () => {
       .filter((transaction: any) => transaction.type === "WITHDRAWAL")
       .map((transaction: any) => ({
         id: transaction.id,
-        timestamp: transaction.created_at.split(".")[0].replace("T", " "),
+        timestamp: transaction.created_at?.split(".")[0].replace("T", " "),
         user: {
           id: transaction.sender?.id,
           name: transaction.sender?.full_name,
@@ -22,7 +22,7 @@ const WithdrawalRequestsPage = () => {
             transaction.sender?.avatar || "/assets/avatars/avatar-default.png",
         },
         type: "Withdraw",
-        amount: transaction.amount,
+        amount: transaction.amount?.toString() || "0",
         status:
           transaction.status === "PENDING"
             ? "Pending"
@@ -31,6 +31,30 @@ const WithdrawalRequestsPage = () => {
             : "Failed",
       }))
   );
+
+  useEffect(() => {
+    setTableData(
+      allTransactions.map((transaction: any) => ({
+        id: transaction.id,
+        timestamp: transaction.created_at?.split(".")[0].replace("T", " "),
+        user: {
+          id: transaction.sender?.id,
+          name: transaction.sender?.full_name,
+          email: transaction.sender?.email,
+          avatar:
+            transaction.sender?.avatar || "/assets/avatars/avatar-default.png",
+        },
+        type: "Withdraw",
+        amount: transaction.amount?.toString() || "0",
+        status:
+          transaction.status === "PENDING"
+            ? "Pending"
+            : transaction.status === "COMPLETED"
+            ? "Approved"
+            : "Failed",
+      }))
+    );
+  }, [allTransactions]);
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6">

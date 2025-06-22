@@ -26,7 +26,7 @@ interface Transaction {
   };
 }
 
-interface User {
+export interface User {
   id?: string;
   avatar?: string;
   email?: string;
@@ -36,6 +36,7 @@ interface User {
   government_id?: string;
   id_card?: string;
   username?: string;
+  updated_at?: string;
   role?: "ADMIN" | "USER";
   status?: "ACTIVE" | "INACTIVE" | "FREEZE" | "SUSPENDED";
   verify?: "UNVERIFIED" | "VERIFIED" | "REJECTED";

@@ -19,6 +19,7 @@ import Firework from "@/components/Firework";
 import { useNotification } from "@/providers/notificationProvider";
 import { useTransactionStore, useUserStore } from "@/store";
 import { useRouter } from "next/navigation";
+import { Transaction } from "@/store/transactionStore";
 
 const Dashboard = () => {
   const wheelRef = useRef<HTMLDivElement>(null);
@@ -27,14 +28,13 @@ const Dashboard = () => {
   const { transactions } = useTransactionStore();
   const router = useRouter();
 
-  const [spinningAvailable, setSpinningAvailable] = useState(false);
-  const [spinningModal, setSpinningModal] = useState(false);
-  const [spinningEnd, setSpinningEnd] = useState(false);
-  const [processing, setProcessing] = useState(false);
-  const [progress, setProgress] = useState(60);
+  const [spinningModal, setSpinningModal] = useState<boolean>(false);
+  const [spinningEnd, setSpinningEnd] = useState<boolean>(false);
+  const [processing, setProcessing] = useState<boolean>(false);
+  const progress = 60;
 
   const [tableData, setTableData] = useState<any[]>(
-    transactions.map((transaction: any) => ({
+    transactions.map((transaction: Transaction) => ({
       id: transaction.id,
       header: "No",
       type:
@@ -46,7 +46,7 @@ const Dashboard = () => {
             transaction.sender_id === user?.id
           ? "BonusSent"
           : "BonusReceived",
-      amount: transaction.amount.toString(),
+      amount: transaction.amount?.toString() || "0",
       status:
         transaction.status === "COMPLETED"
           ? "Success"
@@ -86,9 +86,73 @@ const Dashboard = () => {
             ? transaction.sender?.avatar || "/assets/avatars/avatar-default.png"
             : "/assets/logo.png",
       },
-      created_at: transaction.created_at.split(".")[0].replace("T", " "),
+      created_at: transaction.created_at?.split(".")[0].replace("T", " "),
     }))
   );
+
+  useEffect(() => {
+    setTableData(
+      transactions.map((transaction: Transaction) => ({
+        id: transaction.id,
+        header: "No",
+        type:
+          transaction.type === "DEPOSIT"
+            ? "Deposit"
+            : transaction.type === "WITHDRAWAL"
+            ? "Withdraw"
+            : transaction.type === "TRANSFER" &&
+              transaction.sender_id === user?.id
+            ? "BonusSent"
+            : "BonusReceived",
+        amount: transaction.amount?.toString() || "0",
+        status:
+          transaction.status === "COMPLETED"
+            ? "Success"
+            : transaction.status === "FAILED"
+            ? "Failed"
+            : transaction.status === "CANCELLED"
+            ? "Cancelled"
+            : "Pending",
+        user: {
+          id:
+            transaction.type === "TRANSFER" &&
+            transaction.sender_id === user?.id
+              ? transaction.recipient_id
+              : transaction.type === "TRANSFER" &&
+                transaction.recipient_id === user?.id
+              ? transaction.sender_id
+              : "Unknown",
+          name:
+            transaction.type === "TRANSFER" &&
+            transaction.sender_id === user?.id
+              ? transaction.recipient?.full_name || "Unknown"
+              : transaction.type === "TRANSFER" &&
+                transaction.recipient_id === user?.id
+              ? transaction.sender?.full_name || "Unknown"
+              : "Platform",
+          email:
+            transaction.type === "TRANSFER" &&
+            transaction.sender_id === user?.id
+              ? transaction.recipient?.email || "Unknown"
+              : transaction.type === "TRANSFER" &&
+                transaction.recipient_id === user?.id
+              ? transaction.sender?.email || "Unknown"
+              : "",
+          avatar:
+            transaction.type === "TRANSFER" &&
+            transaction.sender_id === user?.id
+              ? transaction.recipient?.avatar ||
+                "/assets/avatars/avatar-default.png"
+              : transaction.type === "TRANSFER" &&
+                transaction.recipient_id === user?.id
+              ? transaction.sender?.avatar ||
+                "/assets/avatars/avatar-default.png"
+              : "/assets/logo.png",
+        },
+        created_at: transaction.created_at?.split(".")[0].replace("T", " "),
+      }))
+    );
+  }, [transactions, user]);
 
   const handleSpinOutSideClick = (e: React.MouseEvent<HTMLDivElement>) => {
     if (
@@ -198,7 +262,9 @@ const Dashboard = () => {
               className="absolute bottom-0 right-0"
             />
             <h3 className="!text-[28px] text-black z-10">
-              {spinningAvailable ? "Available" : "Not available"}
+              {user?.availableSpins && user?.availableSpins > 0
+                ? "Available"
+                : "Not available"}
             </h3>
             <p className="!text-[14px] !text-black max-w-[130px] z-10">
               Spin the Wheel and Win a Bonus!

@@ -8,6 +8,7 @@ import {
   IconChevronsRight,
   IconLoader2,
   IconSearch,
+  IconArrowDown,
 } from "@tabler/icons-react";
 import {
   ColumnDef,
@@ -19,7 +20,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -45,10 +45,8 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowUpIcon, ArrowDownIcon } from "./ui/icon";
+import { ArrowDownIcon } from "@/components/ui/icon";
 import StatusBadge from "./StatusBadge";
-import { useNotification } from "@/providers/notificationProvider";
-import { useTransactionStore } from "@/store/transactionStore";
 import { WithdrawApproveModalAdmin } from "./WithdrawApproveModalAdmin";
 import { NavUser } from "./NavUser";
 
@@ -93,7 +91,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     header: "Type",
     cell: ({ row }) => (
       <div className="flex items-center justify-start gap-1 ">
-        <ArrowUpIcon width="24" height="24" />
+        <ArrowDownIcon width="24" height="24" />
         Withdraw
       </div>
     ),
@@ -140,9 +138,6 @@ export function DataTable({
 }: {
   data: z.infer<typeof schema>[];
 }) {
-  const [isApproveing, setIsApproveing] = React.useState(false);
-  const { setAllTransactions } = useTransactionStore();
-  const { toast } = useNotification();
   const [activeTab, setActiveTab] = React.useState("all");
   const [searchKey, setSearchKey] = React.useState("");
   const [data, setData] = React.useState(() => initialData);

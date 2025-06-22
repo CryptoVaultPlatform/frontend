@@ -6,8 +6,6 @@ import {
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
-  IconCheck,
-  IconX,
   IconSearch,
 } from "@tabler/icons-react";
 import {
@@ -20,7 +18,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -45,8 +42,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowUpIcon, ArrowDownIcon } from "./ui/icon";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; 
 import StatusBadge from "./StatusBadge";
 import { NavUser } from "./NavUser";
 import { KYCapproveModal } from "./KYCapproveModal";

@@ -8,7 +8,6 @@ import {
   IconTool,
   IconDatabaseDollar,
   IconUsers,
-  IconTransferIn,
   IconTransferOut,
   IconRosetteDiscountCheck,
 } from "@tabler/icons-react";

@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import {
-  IconChevronDown,
   IconChevronLeft,
   IconChevronRight,
   IconChevronsLeft,
@@ -20,7 +19,6 @@ import {
   getFilteredRowModel,
   getPaginationRowModel,
   getSortedRowModel,
-  Row,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -30,7 +28,6 @@ import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
-  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
@@ -56,7 +53,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StatusBadge from "./StatusBadge";
 import { NavUser } from "./NavUser";
-import { toast } from "sonner";
 import { getAllUsers, updateUserStatus as updateUserStatusApi } from "@/api";
 import { useUserStore } from "@/store/userStore";
 import { useNotification } from "@/providers/notificationProvider";
@@ -204,7 +200,7 @@ export function DataTable({
 }: {
   data: z.infer<typeof schema>[];
 }) {
-  const { users, setUsersData } = useUserStore();
+  const { setUsersData } = useUserStore();
   const { toast } = useNotification();
   const [activeTab, setActiveTab] = React.useState("all");
   const [searchKey, setSearchKey] = React.useState("");

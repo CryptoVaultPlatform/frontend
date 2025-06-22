@@ -8,14 +8,14 @@ interface User {
   full_name?: string;
 }
 
-interface Transaction {
+export interface Transaction {
   id?: string;
   amount?: number;
   type?: "DEPOSIT" | "WITHDRAWAL" | "TRANSFER" | "BONUS";
   status?: "PENDING" | "COMPLETED" | "FAILED" | "CANCELLED";
   description?: string;
-  created_at?: Date;
-  updated_at?: Date;
+  created_at?: string;
+  updated_at?: string;
   sender_id?: string;
   recipient_id?: string;
 
