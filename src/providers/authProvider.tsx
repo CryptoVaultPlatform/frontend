@@ -44,8 +44,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const init = async () => {
       try {
         const token: string | null = window.localStorage.getItem("token");
-        const { isTokenValid, user }: { isTokenValid: boolean; user: any } =
-          await verifyToken(token || "");
+        const {
+          isTokenValid,
+          user,
+        }: { isTokenValid: boolean; user: User | null } = await verifyToken(
+          token || ""
+        );
+        if (!user) {
+          return;
+        }
 
         if (user?.status === "SUSPENDED") {
           toast("Your account is suspended", "Warning");
@@ -85,7 +92,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
             }
           );
 
-          if (user.role === "ADMIN") {
+          if (user?.role === "ADMIN") {
             await getAllUsers(
               (users: User[]) => {
                 setUsersData(users);
@@ -136,7 +143,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                   new Date(b?.created_at || "").getTime() -
                   new Date(a?.created_at || "").getTime()
               )[0]?.amount,
-            recentBonus: user.receivedTransactions
+            recentBonus: user?.receivedTransactions
               ?.filter(
                 (transaction: Transaction) => transaction.type === "BONUS"
               )
@@ -145,7 +152,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                   new Date(b?.created_at || "").getTime() -
                   new Date(a?.created_at || "").getTime()
               )[0]?.amount,
-            recentWithdrawStatus: user.sentTransactions
+            recentWithdrawStatus: user?.sentTransactions
               ?.filter(
                 (transaction: Transaction) => transaction.type === "WITHDRAWAL"
               )
@@ -157,7 +164,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           };
           setUserData(newUser);
 
-          if (user.role === "USER" && pathname.includes("/admin-dashboard")) {
+          if (user?.role === "USER" && pathname.includes("/admin-dashboard")) {
             router.push("/dashboard");
           }
         } else {
@@ -229,7 +236,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           ...user,
           sentTransactions: [],
           receivedTransactions: [],
-          recentDeposit: user.receivedTransactions
+          recentDeposit: user?.receivedTransactions
             ?.filter(
               (transaction: Transaction) => transaction.type === "DEPOSIT"
             )
@@ -238,7 +245,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 new Date(b?.created_at || "").getTime() -
                 new Date(a?.created_at || "").getTime()
             )[0]?.amount,
-          recentWithdrawal: user.sentTransactions
+          recentWithdrawal: user?.sentTransactions
             ?.filter(
               (transaction: Transaction) => transaction.type === "WITHDRAWAL"
             )
@@ -247,14 +254,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 new Date(b?.created_at || "").getTime() -
                 new Date(a?.created_at || "").getTime()
             )[0]?.amount,
-          recentBonus: user.receivedTransactions
+          recentBonus: user?.receivedTransactions
             ?.filter((transaction: Transaction) => transaction.type === "BONUS")
             .sort(
               (a: Transaction, b: Transaction) =>
                 new Date(b?.created_at || "").getTime() -
                 new Date(a?.created_at || "").getTime()
             )[0]?.amount,
-          recentWithdrawStatus: user.sentTransactions
+          recentWithdrawStatus: user?.sentTransactions
             ?.filter(
               (transaction: Transaction) => transaction.type === "WITHDRAWAL"
             )
@@ -275,7 +282,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           }
         );
 
-        if (user.role === "ADMIN") {
+        if (user?.role === "ADMIN") {
           await getAllUsers(
             (users: User[]) => {
               setUsersData(users);
@@ -297,7 +304,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         toast("Logged in successfully", "Success");
 
-        if (user.role === "ADMIN") {
+        if (user?.role === "ADMIN") {
           router.push("/admin-dashboard");
         } else {
           router.push("/dashboard");

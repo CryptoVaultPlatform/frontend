@@ -1,59 +1,35 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { DataTable } from "@/components/DataTableAdminSupport";
+import { useState } from "react";
+import { DataTable, schema } from "@/components/DataTableAdminSupport";
 import { useSupportStore, Support } from "@/store/supportStore";
+import { z } from "zod";
 
 const SupportPage = () => {
   const { allSupports } = useSupportStore();
 
-  const [tableData, setTableData] = useState<any[]>(
+  const [tableData] = useState<z.infer<typeof schema>[]>(
     allSupports.map((support: Support, index: number) => ({
-      id: support.id,
+      id: support.id || "",
       ticketId: `#T-1435${index + 1}`,
       user: {
-        id: support?.user?.id,
-        name: support?.user?.full_name,
-        email: support?.user?.email,
-        avatar: support?.user?.avatar,
+        id: support?.user?.id || "",
+        name: support?.user?.full_name || "",
+        email: support?.user?.email || "",
+        avatar: support?.user?.avatar || "",
       },
-      subject: support.subject,
+      subject: support.subject || "",
       status:
         support.status === "RESOLVED"
           ? "Resolved"
           : support.status === "ESCALATED"
           ? "Escalated"
           : "In Progress",
-      lastUpdated: support?.updated_at?.split(".")[0].replace("T", " "),
-      message: support.message,
-      reply: support.replyMessage,
+      lastUpdated: support?.updated_at?.split(".")[0].replace("T", " ") || "",
+      message: support.message || "",
+      reply: support.replyMessage || "",
     }))
   );
-
-  useEffect(() => {
-    setTableData(
-      allSupports.map((support: Support, index: number) => ({
-        id: support.id,
-        ticketId: `#T-1435${index + 1}`,
-        user: {
-          id: support?.user?.id,
-          name: support?.user?.full_name,
-          email: support?.user?.email,
-          avatar: support?.user?.avatar,
-        },
-        subject: support.subject,
-        status:
-          support.status === "RESOLVED"
-            ? "Resolved"
-            : support.status === "ESCALATED"
-            ? "Escalated"
-            : "In Progress",
-        lastUpdated: support?.updated_at?.split(".")[0].replace("T", " "),
-        message: support.message,
-        reply: support.replyMessage,
-      }))
-    );
-  }, [allSupports]);
 
   return (
     <div className="flex flex-col gap-6 p-4 md:p-6">

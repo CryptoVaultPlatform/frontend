@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Image from "next/image";
 import { IconWallet } from "@tabler/icons-react";
 
@@ -9,7 +9,7 @@ import { Progress } from "@/components/ui/progress";
 import { IconArrowDown, DollarBagIcon } from "@/components/ui/icon";
 
 import StatusCode from "@/components/StatusBadge";
-import { DataTable } from "@/components/DataTableUserTransactions";
+import { DataTable, schema } from "@/components/DataTableUserTransactions";
 import WheelOfFortune from "@/components/WheelOfFortune";
 import { SendBonusModal } from "@/components/SendBonusModal";
 import { WithdrawModal } from "@/components/WithdrawModal";
@@ -17,9 +17,9 @@ import { DepositModal } from "@/components/DepositModal";
 import Firework from "@/components/Firework";
 
 import { useNotification } from "@/providers/notificationProvider";
-import { useTransactionStore, useUserStore } from "@/store";
+import { useTransactionStore, useUserStore, Transaction } from "@/store";
 import { useRouter } from "next/navigation";
-import { Transaction } from "@/store/transactionStore";
+import { z } from "zod";
 
 const Dashboard = () => {
   const wheelRef = useRef<HTMLDivElement>(null);
@@ -33,9 +33,9 @@ const Dashboard = () => {
   const [processing, setProcessing] = useState<boolean>(false);
   const progress = 60;
 
-  const [tableData] = useState<any[]>(
+  const [tableData] = useState<z.infer<typeof schema>[]>(
     transactions.map((transaction: Transaction) => ({
-      id: transaction.id,
+      id: transaction.id || "",
       header: "No",
       type:
         transaction.type === "DEPOSIT"
@@ -46,7 +46,7 @@ const Dashboard = () => {
             transaction.sender_id === user?.id
           ? "BonusSent"
           : "BonusReceived",
-      amount: transaction.amount?.toString() || "0",
+      amount: transaction.amount || 0,
       status:
         transaction.status === "COMPLETED"
           ? "Success"
@@ -58,24 +58,24 @@ const Dashboard = () => {
       user: {
         id:
           transaction.type === "TRANSFER" && transaction.sender_id === user?.id
-            ? transaction.recipient_id
+            ? transaction.recipient_id || ""
             : transaction.type === "TRANSFER" &&
               transaction.recipient_id === user?.id
-            ? transaction.sender_id
+            ? transaction.sender_id || ""
             : "Unknown",
         name:
           transaction.type === "TRANSFER" && transaction.sender_id === user?.id
-            ? transaction.recipient?.full_name || "Unknown"
+            ? transaction.recipient?.full_name || ""
             : transaction.type === "TRANSFER" &&
               transaction.recipient_id === user?.id
-            ? transaction.sender?.full_name || "Unknown"
+            ? transaction.sender?.full_name || ""
             : "Platform",
         email:
           transaction.type === "TRANSFER" && transaction.sender_id === user?.id
-            ? transaction.recipient?.email || "Unknown"
+            ? transaction.recipient?.email || ""
             : transaction.type === "TRANSFER" &&
               transaction.recipient_id === user?.id
-            ? transaction.sender?.email || "Unknown"
+            ? transaction.sender?.email || ""
             : "",
         avatar:
           transaction.type === "TRANSFER" && transaction.sender_id === user?.id
@@ -86,7 +86,7 @@ const Dashboard = () => {
             ? transaction.sender?.avatar || "/assets/avatars/avatar-default.png"
             : "/assets/logo.png",
       },
-      created_at: transaction.created_at?.split(".")[0].replace("T", " "),
+      created_at: transaction.created_at?.split(".")[0].replace("T", " ") || "",
     }))
   );
 

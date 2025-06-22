@@ -1,4 +1,5 @@
 import instance from "@/lib/axios";
+import { Support, Transaction, User } from "@/store";
 
 export const signup = async (
   email: string,
@@ -33,51 +34,13 @@ export const signup = async (
 
 // Get user
 export const getUser = async (
-  onSuccess: (user: any) => void,
+  onSuccess: (user: User) => void,
   onError: (message: string) => void
 ) => {
   try {
     const res = await instance.get(`/api/user/profile`);
     if (res.status === 200) {
       const { user } = res.data;
-      // const newUser: any = {
-      //   ...user,
-      //   transactions: user.receivedTransactions
-      //     .concat(user.sentTransactions)
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     ),
-      //   recentDeposit: user.receivedTransactions
-      //     ?.filter((transaction: any) => transaction.type === "DEPOSIT")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.amount,
-      //   recentWithdrawal: user.sentTransactions
-      //     ?.filter((transaction: any) => transaction.type === "WITHDRAWAL")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.amount,
-      //   recentBonus: user.receivedTransactions
-      //     ?.filter((transaction: any) => transaction.type === "BONUS")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.amount,
-      //   recentWithdrawStatus: user.sentTransactions
-      //     ?.filter((transaction: any) => transaction.type === "WITHDRAWAL")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.status,
-      // };
       onSuccess(user);
     } else {
       onError(res.data.message);
@@ -99,51 +62,13 @@ export const getUser = async (
 
 // Get users by admin
 export const getAllUsers = async (
-  onSuccess: (users: any) => void,
+  onSuccess: (users: User[]) => void,
   onError: (message: string) => void
 ) => {
   try {
     const res = await instance.get(`/api/user/all-user`);
     if (res.status === 200) {
       const { users } = res.data;
-      // const newUser: any = {
-      //   ...user,
-      //   transactions: user.receivedTransactions
-      //     .concat(user.sentTransactions)
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     ),
-      //   recentDeposit: user.receivedTransactions
-      //     ?.filter((transaction: any) => transaction.type === "DEPOSIT")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.amount,
-      //   recentWithdrawal: user.sentTransactions
-      //     ?.filter((transaction: any) => transaction.type === "WITHDRAWAL")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.amount,
-      //   recentBonus: user.receivedTransactions
-      //     ?.filter((transaction: any) => transaction.type === "BONUS")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.amount,
-      //   recentWithdrawStatus: user.sentTransactions
-      //     ?.filter((transaction: any) => transaction.type === "WITHDRAWAL")
-      //     .sort(
-      //       (a: any, b: any) =>
-      //         new Date(b.created_at).getTime() -
-      //         new Date(a.created_at).getTime()
-      //     )[0]?.status,
-      // };
       onSuccess(users);
     } else {
       onError(res.data.message);
@@ -164,7 +89,12 @@ export const getAllUsers = async (
 };
 
 export const updateProfile = async (
-  data: any,
+  data: {
+    avatar: File | string;
+    first_name: string;
+    last_name: string;
+    username: string;
+  },
   onSuccess: () => void,
   onError: (message: string) => void
 ) => {
@@ -462,17 +392,18 @@ export const sendBonus = async (
 
 // Get all transactions
 export const getTransactions = async (
-  onSuccess: (transactions: any) => void,
+  onSuccess: (transactions: Transaction[]) => void,
   onError: (message: string) => void
 ) => {
   try {
     const res = await instance.get("/api/transactions/get-transaction");
 
     if (res.status === 200) {
-      const transactions: any = res.data.transactions;
-      const newTransactions: any = transactions.sort(
-        (a: any, b: any) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      const transactions = res.data.transactions;
+      const newTransactions = transactions.sort(
+        (a: Transaction, b: Transaction) =>
+          new Date(b?.created_at || "").getTime() -
+          new Date(a?.created_at || "").getTime()
       );
       onSuccess(newTransactions);
     } else {
@@ -495,17 +426,18 @@ export const getTransactions = async (
 
 // Get all transactions by admin
 export const getAllTransactions = async (
-  onSuccess: (transactions: any) => void,
+  onSuccess: (transactions: Transaction[]) => void,
   onError: (message: string) => void
 ) => {
   try {
     const res = await instance.get("/api/transactions/all-transaction");
 
     if (res.status === 200) {
-      const transactions: any = res.data.transactions;
-      const newTransactions: any = transactions.sort(
-        (a: any, b: any) =>
-          new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+      const transactions = res.data.transactions;
+      const newTransactions = transactions.sort(
+        (a: Transaction, b: Transaction) =>
+          new Date(b?.created_at || "").getTime() -
+          new Date(a?.created_at || "").getTime()
       );
       onSuccess(newTransactions);
     } else {
@@ -559,16 +491,17 @@ export const sendSupport = async (
 
 // Get support
 export const getSupports = async (
-  onSuccess: (supports: any) => void,
+  onSuccess: (supports: Support[]) => void,
   onError: (message: string) => void
 ) => {
   try {
     const res = await instance.get("/api/support/get-supports");
     if (res.status === 200) {
-      const supports: any = res.data.supports;
-      const newSupports: any = supports.sort(
-        (a: any, b: any) =>
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      const supports = res.data.supports;
+      const newSupports = supports.sort(
+        (a: Support, b: Support) =>
+          new Date(b.updated_at || "").getTime() -
+          new Date(a.updated_at || "").getTime()
       );
       onSuccess(newSupports);
     } else {
@@ -672,7 +605,7 @@ export const approveWithdrawal = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
+  } catch (error) {
     if (error instanceof Error) {
       console.error("error: ", error);
       // Handle case where error.response may not exist
@@ -721,16 +654,17 @@ export const handleKYC = async (
 
 // Get all supports by admin
 export const getAllSupports = async (
-  onSuccess: (supports: any) => void,
+  onSuccess: (supports: Support[]) => void,
   onError: (message: string) => void
 ) => {
   try {
     const res = await instance.get("/api/support/get-all-support");
     if (res.status === 200) {
-      const supports: any = res.data.supports;
-      const newSupports: any = supports.sort(
-        (a: any, b: any) =>
-          new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime()
+      const supports = res.data.supports;
+      const newSupports = supports.sort(
+        (a: Support, b: Support) =>
+          new Date(b.updated_at || "").getTime() -
+          new Date(a.updated_at || "").getTime()
       );
       onSuccess(newSupports);
     } else {

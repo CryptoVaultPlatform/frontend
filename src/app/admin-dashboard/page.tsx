@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { UsersIcon, TotalBalanceIcon, PeddingIcon } from "@/components/ui/icon";
 import { useUserStore } from "@/store/userStore";
 import { useTransactionStore } from "@/store";
-import { DataTable } from "@/components/DataTableAdminTransactions";
+import { DataTable, schema } from "@/components/DataTableAdminTransactions";
 import { Transaction } from "@/store/transactionStore";
+import { z } from "zod";
 
 const Dashboard = () => {
   const { users } = useUserStore();
@@ -13,12 +14,11 @@ const Dashboard = () => {
   const [totalActiveUsers, setTotalActiveUsers] = useState<number>(0);
   const [totalAvailableBalance, setTotalAvailableBalance] = useState<number>(0);
 
-  const [tableData] = useState<any[]>(
+  const [tableData] = useState<z.infer<typeof schema>[]>(
     allTransactions.map((transaction: Transaction) => ({
-      id: transaction.id,
-      timestamp: transaction.created_at?.split(".")[0].replace("T", " "),
-      email:
-        transaction.sender?.email || transaction.recipient?.email || "Unknown",
+      id: transaction.id || "",
+      timestamp: transaction.created_at?.split(".")[0].replace("T", " ") || "",
+      email: transaction.sender?.email || transaction.recipient?.email || "",
       type:
         transaction.type === "DEPOSIT"
           ? "Deposit"
@@ -27,7 +27,7 @@ const Dashboard = () => {
           : transaction.type === "TRANSFER"
           ? "BonusSent"
           : "BonusReceived",
-      amount: transaction.amount?.toString() || "0",
+      amount: transaction.amount || 0,
       status:
         transaction.status === "COMPLETED"
           ? "Success"
@@ -38,16 +38,14 @@ const Dashboard = () => {
           : "Pending",
       user: {
         id:
-          transaction.type === "TRANSFER"
-            ? transaction.recipient_id
-            : "Unknown",
+          transaction.type === "TRANSFER" ? transaction.recipient_id || "" : "",
         name:
           transaction.type === "TRANSFER"
-            ? transaction.recipient?.full_name || "Unknown"
+            ? transaction.recipient?.full_name || ""
             : "Platform",
         email:
           transaction.type === "TRANSFER"
-            ? transaction.recipient?.email || "Unknown"
+            ? transaction.recipient?.email || ""
             : "",
         avatar:
           transaction.type === "TRANSFER"

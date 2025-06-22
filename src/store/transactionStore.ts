@@ -1,12 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-
-interface User {
-  id?: string;
-  avatar?: string;
-  email?: string;
-  full_name?: string;
-}
+import { User } from "./userStore";
 
 export interface Transaction {
   id?: string;

@@ -1,32 +1,33 @@
 "use client";
 
-import { DataTable } from "@/components/DataTableUserSupport";
-import { useEffect, useState } from "react";
+import { DataTable, schema } from "@/components/DataTableUserSupport";
+import { useState } from "react";
 import { SupportModal } from "@/components/Support";
 import { useSupportStore, Support } from "@/store";
+import { z } from "zod";
 
 const SupportPage = () => {
   const { supports } = useSupportStore();
-  const [tableData] = useState<any[]>(
+  const [tableData] = useState<z.infer<typeof schema>[]>(
     supports.map((support: Support, index: number) => ({
-      id: support.id,
+      id: support.id || "",
       ticketId: `#T-1435${index + 1}`,
       user: {
-        id: support.user?.id,
-        name: support.user?.full_name,
-        email: support.user?.email,
-        avatar: support.user?.avatar,
+        id: support.user?.id || "",
+        name: support.user?.full_name || "",
+        email: support.user?.email || "",
+        avatar: support.user?.avatar || "",
       },
-      subject: support.subject,
+      subject: support.subject || "",
       status:
         support.status === "RESOLVED"
           ? "Resolved"
           : support.status === "ESCALATED"
           ? "Escalated"
           : "In Progress",
-      lastUpdated: support.updated_at?.split(".")[0].replace("T", " "),
-      message: support.message,
-      reply: support.replyMessage,
+      lastUpdated: support.updated_at?.split(".")[0].replace("T", " ") || "",
+      message: support.message || "",
+      reply: support.replyMessage || "",
     }))
   );
 

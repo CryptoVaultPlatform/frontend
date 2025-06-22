@@ -168,7 +168,12 @@ const SettingsPage = () => {
 
   async function onSubmit1(data: z.infer<typeof FormSchema1>) {
     await updateProfile(
-      data,
+      {
+        avatar: data.avatar instanceof File ? data.avatar : new File([], ""),
+        first_name: data.first_name,
+        last_name: data.last_name,
+        username: data.username,
+      },
       () => {
         toast("Profile updated successfully", "Success");
       },

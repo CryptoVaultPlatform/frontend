@@ -1,15 +1,11 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
+import { User } from "./userStore";
 
 export interface Support {
   id?: string;
   ticketId?: string;
-  user?: {
-    id?: string;
-    avatar?: string;
-    email?: string;
-    full_name?: string;
-  };
+  user?: User;
   subject?: string;
   status?: string;
   updated_at?: string;

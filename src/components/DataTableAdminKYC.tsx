@@ -42,7 +42,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"; 
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StatusBadge from "./StatusBadge";
 import { NavUser } from "./NavUser";
 import { KYCapproveModal } from "./KYCapproveModal";
@@ -59,8 +59,8 @@ export const schema = z.object({
   submitted: z.string(),
   status: z.string(),
   verify: z.string(),
-  ipAddress: z.string(),
-  device: z.string(),
+  ipAddress: z.string().optional().nullable().default("192.168.125.1"),
+  device: z.string().optional().nullable().default("desktop"),
   documents: z.array(z.string()),
 });
 
@@ -123,8 +123,8 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
             fullName={row.original.user.name}
             email={row.original.user.email}
             dateOfSubmission={row.original.submitted}
-            ipAddress={row.original.ipAddress}
-            device={row.original.device}
+            ipAddress={row.original.ipAddress || "192.168.125.1"}
+            device={row.original.device || "desktop"}
             documents={row.original.documents}
           />
         )}

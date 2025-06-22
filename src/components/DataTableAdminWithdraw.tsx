@@ -6,9 +6,7 @@ import {
   IconChevronRight,
   IconChevronsLeft,
   IconChevronsRight,
-  IconLoader2,
   IconSearch,
-  IconArrowDown,
 } from "@tabler/icons-react";
 import {
   ColumnDef,
@@ -102,7 +100,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex items-center justify-start ">
-          ${row.original.amount}
+          ${row.original.amount.toFixed(2)}
         </div>
       );
     },
