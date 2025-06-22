@@ -50,14 +50,14 @@ import StatusBadge from "./StatusBadge";
 import { NavUser } from "./NavUser";
 
 export const schema = z.object({
-  id: z.number(),
+  id: z.string(),
   timestamp: z.string(),
   email: z.string().email(),
   type: z.string(),
   amount: z.string(),
   status: z.string(),
   user: z.object({
-    id: z.number(),
+    id: z.string(),
     name: z.string(),
     email: z.string().email(),
     avatar: z.string(),
@@ -155,7 +155,7 @@ export function DataTable({
 }) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [searchKey, setSearchKey] = React.useState("");
-  const [data, setData] = React.useState(() => initialData);
+  const [data] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -290,7 +290,7 @@ export function DataTable({
             </TableHeader>
             <TableBody className="bg-[#40414933]">
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row, index) => (
+                table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
@@ -435,7 +435,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.type === "Deposit")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
@@ -580,7 +580,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.type === "Withdraw")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
@@ -732,7 +732,7 @@ export function DataTable({
                       row.original.type === "BonusSent" ||
                       row.original.type === "BonusReceived"
                   )
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}

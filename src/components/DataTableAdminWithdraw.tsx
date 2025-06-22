@@ -89,7 +89,7 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
   {
     accessorKey: "type",
     header: "Type",
-    cell: ({ row }) => (
+    cell: () => (
       <div className="flex items-center justify-start gap-1 ">
         <ArrowDownIcon width="24" height="24" />
         Withdraw
@@ -140,7 +140,7 @@ export function DataTable({
 }) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [searchKey, setSearchKey] = React.useState("");
-  const [data, setData] = React.useState(() => initialData);
+  const [data] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -429,7 +429,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.status === "Approved")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
@@ -574,7 +574,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.status === "Pending")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
@@ -719,7 +719,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.status === "Failed")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}

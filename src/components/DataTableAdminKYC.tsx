@@ -120,7 +120,6 @@ const columns: ColumnDef<z.infer<typeof schema>>[] = [
           <h6 className="text-center !text-[14px] text-[#1FB356]">Admin</h6>
         ) : (
           <KYCapproveModal
-            id={row.original.id}
             fullName={row.original.user.name}
             email={row.original.user.email}
             dateOfSubmission={row.original.submitted}
@@ -141,7 +140,7 @@ export function DataTable({
 }) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [searchKey, setSearchKey] = React.useState("");
-  const [data, setData] = React.useState(() => initialData);
+  const [data] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});

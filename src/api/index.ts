@@ -16,9 +16,18 @@ export const signup = async (
     } else {
       onError(response.data.message);
     }
-  } catch (error: any) {
-    console.error("error: ", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -73,9 +82,18 @@ export const getUser = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error getting user:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -130,9 +148,18 @@ export const getAllUsers = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error getting user:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -159,9 +186,18 @@ export const updateProfile = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error updating profile:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -181,9 +217,18 @@ export const updatePassword = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error updating password:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -215,9 +260,18 @@ export const updateKYC = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error updating KYC:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -236,9 +290,18 @@ export const forgotPassword = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error sending forgot password email:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -257,9 +320,18 @@ export const resetPassword = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error resetting password:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -279,9 +351,18 @@ export const deposit = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error depositing:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -301,9 +382,18 @@ export const withdraw = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error withdrawing:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -323,9 +413,18 @@ export const addBonus = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error adding bonus:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -346,9 +445,18 @@ export const sendBonus = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error sending bonus:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -370,9 +478,18 @@ export const getTransactions = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error getting all transactions:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -394,9 +511,18 @@ export const getAllTransactions = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error getting all transactions:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -416,9 +542,18 @@ export const sendSupport = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error sending support:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -439,9 +574,18 @@ export const getSupports = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error getting support:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -462,9 +606,18 @@ export const deleteSupport = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error deleting support:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -485,9 +638,18 @@ export const updateUserStatus = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error updating user status:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -511,8 +673,17 @@ export const approveWithdrawal = async (
       onError(res.data.message);
     }
   } catch (error: any) {
-    console.error("Error approving withdrawal:", error);
-    onError(error.response.data.message);
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -533,9 +704,18 @@ export const handleKYC = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error approving KYC:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -556,9 +736,18 @@ export const getAllSupports = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error getting all supports:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -583,9 +772,18 @@ export const updateSupport = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error updating support:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };
 
@@ -602,8 +800,17 @@ export const verifyEmail = async (
     } else {
       onError(res.data.message);
     }
-  } catch (error: any) {
-    console.error("Error verifying email:", error);
-    onError(error.response.data.message);
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error("error: ", error);
+      // Handle case where error.response may not exist
+      const message =
+        error instanceof Object && "response" in error
+          ? (error.response as { data: { message: string } }).data.message
+          : error.message;
+      onError(message);
+    } else {
+      onError("An unknown error occurred");
+    }
   }
 };

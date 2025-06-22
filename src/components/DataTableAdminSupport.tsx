@@ -137,7 +137,7 @@ export function DataTable({
 }) {
   const [activeTab, setActiveTab] = React.useState("all");
   const [searchKey, setSearchKey] = React.useState("");
-  const [data, setData] = React.useState(() => initialData);
+  const [data] = React.useState(() => initialData);
   const [rowSelection, setRowSelection] = React.useState({});
   const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({});
@@ -260,7 +260,7 @@ export function DataTable({
             </TableHeader>
             <TableBody className="bg-[#40414933]">
               {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row, index) => (
+                table.getRowModel().rows.map((row) => (
                   <TableRow
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
@@ -402,7 +402,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.status === "In Progress")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
@@ -544,7 +544,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.status === "Resolved")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}
@@ -686,7 +686,7 @@ export function DataTable({
                 table
                   .getRowModel()
                   .rows.filter((row) => row.original.status === "Escalated")
-                  .map((row, index) => (
+                  .map((row) => (
                     <TableRow
                       key={row.id}
                       data-state={row.getIsSelected() && "selected"}

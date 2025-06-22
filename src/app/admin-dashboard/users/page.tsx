@@ -2,15 +2,13 @@
 
 import { useState } from "react";
 import { DataTable } from "@/components/DataTableAdminUsers";
-import { useUserStore } from "@/store/userStore";
-
-// import data from "@/app/adminUsersData.json";
+import { useUserStore, User } from "@/store/userStore";
 
 const UsersPage = () => {
   const { users } = useUserStore();
 
-  const [tableData, setTableData] = useState<any[]>(
-    users?.map((user: any) => ({
+  const [tableData] = useState<any[]>(
+    users?.map((user: User) => ({
       id: user.id,
       balance: user.balance,
       status:
@@ -34,7 +32,7 @@ const UsersPage = () => {
         avatar: user.avatar || "/assets/avatars/avatar-default.png",
         role: user.role,
       },
-      registered_at: user.created_at.split("T")[0],
+      registered_at: user?.created_at?.split(".")[0],
     })) || []
   );
 

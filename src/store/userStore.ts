@@ -36,6 +36,7 @@ export interface User {
   government_id?: string;
   id_card?: string;
   username?: string;
+  created_at?: string;
   updated_at?: string;
   role?: "ADMIN" | "USER";
   status?: "ACTIVE" | "INACTIVE" | "FREEZE" | "SUSPENDED";

@@ -2,20 +2,20 @@
 
 import { useEffect, useState } from "react";
 import { DataTable } from "@/components/DataTableAdminSupport";
-import { useSupportStore } from "@/store/supportStore";
+import { useSupportStore, Support } from "@/store/supportStore";
 
 const SupportPage = () => {
   const { allSupports } = useSupportStore();
 
   const [tableData, setTableData] = useState<any[]>(
-    allSupports.map((support: any, index: number) => ({
+    allSupports.map((support: Support, index: number) => ({
       id: support.id,
       ticketId: `#T-1435${index + 1}`,
       user: {
-        id: support.user.id,
-        name: support.user.full_name,
-        email: support.user.email,
-        avatar: support.user.avatar,
+        id: support?.user?.id,
+        name: support?.user?.full_name,
+        email: support?.user?.email,
+        avatar: support?.user?.avatar,
       },
       subject: support.subject,
       status:
@@ -24,7 +24,7 @@ const SupportPage = () => {
           : support.status === "ESCALATED"
           ? "Escalated"
           : "In Progress",
-      lastUpdated: support.updated_at.split(".")[0].replace("T", " "),
+      lastUpdated: support?.updated_at?.split(".")[0].replace("T", " "),
       message: support.message,
       reply: support.replyMessage,
     }))
@@ -32,14 +32,14 @@ const SupportPage = () => {
 
   useEffect(() => {
     setTableData(
-      allSupports.map((support: any, index: number) => ({
+      allSupports.map((support: Support, index: number) => ({
         id: support.id,
         ticketId: `#T-1435${index + 1}`,
         user: {
-          id: support.user.id,
-          name: support.user.full_name,
-          email: support.user.email,
-          avatar: support.user.avatar,
+          id: support?.user?.id,
+          name: support?.user?.full_name,
+          email: support?.user?.email,
+          avatar: support?.user?.avatar,
         },
         subject: support.subject,
         status:
@@ -48,7 +48,7 @@ const SupportPage = () => {
             : support.status === "ESCALATED"
             ? "Escalated"
             : "In Progress",
-        lastUpdated: support.updated_at.split(".")[0].replace("T", " "),
+        lastUpdated: support?.updated_at?.split(".")[0].replace("T", " "),
         message: support.message,
         reply: support.replyMessage,
       }))

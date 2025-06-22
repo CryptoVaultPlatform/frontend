@@ -97,11 +97,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         url: "/admin-dashboard/withdrawal-requests",
         icon: IconTransferOut,
       },
-      // {
-      //   title: "Deposit Incentives",
-      //   url: "/admin-dashboard/deposit-incentives",
-      //   icon: IconTransferIn,
-      // },
       {
         title: "KYC Verification",
         url: "/admin-dashboard/kyc-verification",
@@ -137,6 +132,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
                   alt="logo"
                   width={130}
                   height={100}
+                  priority
+                  className="w-auto, h-auto"
                 />
               </Link>
             </SidebarMenuButton>

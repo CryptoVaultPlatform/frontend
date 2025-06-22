@@ -12,8 +12,8 @@ type PropType = {
 };
 
 const EmblaCarousel = (props: PropType) => {
-  const { slides, options, direction } = props;
-  const [emblaRef, emblaApi] = useEmblaCarousel(options, [
+  const { options, direction } = props;
+  const [emblaRef] = useEmblaCarousel(options, [
     AutoScroll({ playOnInit: true, stopOnInteraction: false, speed: 1 }),
   ]);
 
