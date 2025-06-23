@@ -13,7 +13,7 @@ export function useLoadingState(initialState = false) {
     setIsLoading(false);
   }, []);
 
-  const withLoading = useCallback(async (asyncFunction: () => Promise<any>) => {
+  const withLoading = useCallback(async <T>(asyncFunction: () => Promise<T>) => {
     try {
       setIsLoading(true);
       const result = await asyncFunction();
