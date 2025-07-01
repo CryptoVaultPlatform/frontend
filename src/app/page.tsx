@@ -40,7 +40,6 @@ const Home = () => {
   return (
     <div className="bg-background relative z-0 overflow-hidden">
       <Header />
-
       <Image
         src="/assets/home/hero-stars.svg"
         alt="stars"
